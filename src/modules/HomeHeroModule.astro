@@ -27,9 +27,9 @@ const timeSeparator = locale === 'zh' ? '：' : ':';
 		<div class="mx-auto mt-8 max-w-md rounded-lg border border-white/10 bg-white/[0.04] p-6 shadow-2xl shadow-black/30 md:mx-0 md:p-8">
 			<h2 class="text-xl font-semibold text-white">{siteConfig.today.title}</h2>
 			<div class="mt-4 space-y-2 text-base leading-7">
-				<p class="text-zinc-400">{siteConfig.today.current}</p>
-				<p class="font-semibold text-blue-400">{siteConfig.today.next}</p>
-				<p class="font-semibold text-white">{siteConfig.today.note}</p>
+				{siteConfig.today.current && <p class="text-zinc-400">{siteConfig.today.current}</p>}
+				{siteConfig.today.next && <p class="font-semibold text-blue-400">{siteConfig.today.next}</p>}
+				{siteConfig.today.note && <p class="font-semibold text-white">{siteConfig.today.note}</p>}
 				<p class="text-sm text-zinc-500">
 					{siteConfig.today.timeLabel}{timeSeparator} <span data-melbourne-time>--:--</span>
 				</p>
@@ -69,27 +69,31 @@ const timeSeparator = locale === 'zh' ? '：' : ':';
 	</div>
 
 	<div class="order-1 md:order-2">
-		<div class="mb-12 flex items-center gap-6 md:mb-16">
-			<img
-				src={siteConfig.avatar}
-				alt={`${siteConfig.name} avatar`}
-				class="h-36 w-36 shrink-0 rounded-full border border-white/15 bg-zinc-900 object-cover shadow-2xl shadow-black/40 md:h-48 md:w-48 lg:h-52 lg:w-52"
-				loading="eager"
-			/>
-			<div class="min-w-0">
-				<p class="text-sm font-medium uppercase tracking-[0.28em] text-zinc-500">{siteConfig.title}</p>
-				<p class="mt-3 max-w-sm text-sm leading-6 text-zinc-500">{home.eyebrowNote}</p>
+		{(siteConfig.avatar || siteConfig.title || home.eyebrowNote) && (
+			<div class="mb-12 flex items-center gap-6 md:mb-16">
+				{siteConfig.avatar && (
+					<img
+						src={siteConfig.avatar}
+						alt={`${siteConfig.name} avatar`}
+						class="h-36 w-36 shrink-0 rounded-full border border-white/15 bg-zinc-900 object-cover shadow-2xl shadow-black/40 md:h-48 md:w-48 lg:h-52 lg:w-52"
+						loading="eager"
+					/>
+				)}
+				{(siteConfig.title || home.eyebrowNote) && (
+					<div class="min-w-0">
+						{siteConfig.title && <p class="text-sm font-medium uppercase tracking-[0.28em] text-zinc-500">{siteConfig.title}</p>}
+						{home.eyebrowNote && <p class="mt-3 max-w-sm text-sm leading-6 text-zinc-500">{home.eyebrowNote}</p>}
+					</div>
+				)}
 			</div>
-		</div>
+		)}
 		<h1
 			data-time-greeting
 			class="max-w-4xl whitespace-pre-line text-5xl font-semibold tracking-normal text-white md:text-6xl lg:text-7xl"
 		>
 			{home.headline}
 		</h1>
-		<p class="mt-8 max-w-2xl whitespace-pre-line text-lg leading-8 text-zinc-400">
-			{home.intro}
-		</p>
+		{home.intro && <p class="mt-8 max-w-2xl whitespace-pre-line text-lg leading-8 text-zinc-400">{home.intro}</p>}
 		<div class="mt-10 flex flex-wrap gap-3">
 			<a href={home.primaryCta.href} class="rounded-full bg-white px-5 py-3 text-sm font-medium text-black transition hover:bg-zinc-200">
 				{home.primaryCta.label}

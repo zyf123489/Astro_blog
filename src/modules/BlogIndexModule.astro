@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BlogList from '../components/BlogList.astro';
 import SectionHeading from '../components/SectionHeading.astro';
+import { getLocaleFromUrl } from '../config/site';
 
 interface Props {
 	kicker?: string;
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const { description, kicker, labels, title } = Astro.props;
+const locale = getLocaleFromUrl(Astro.url);
 const posts = (await getCollection('blog'))
 	.filter((post) => !post.data.draft)
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
@@ -22,5 +24,9 @@ const posts = (await getCollection('blog'))
 
 <section class="mx-auto max-w-5xl px-5 py-20 md:py-28">
 	<SectionHeading kicker={kicker} title={title} description={description} />
-	<BlogList posts={posts} labels={labels} />
+	{posts.length > 0 ? (
+		<BlogList posts={posts} labels={labels} />
+	) : (
+		<p class="text-zinc-400">{locale === 'zh' ? '暂未发布文章。' : 'No posts have been published yet.'}</p>
+	)}
 </section>

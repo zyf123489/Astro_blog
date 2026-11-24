@@ -5,6 +5,7 @@ import SocialIcon from './SocialIcon.astro';
 const siteConfig = getSiteConfig(getLocaleFromUrl(Astro.url));
 ---
 
+{(siteConfig.email || siteConfig.socials.length > 0) && (
 <section class="mx-auto max-w-6xl px-5 py-20">
 	<div class="rounded-lg border border-white/10 bg-white/[0.04] p-8 md:p-10">
 		<p class="text-sm font-medium uppercase tracking-[0.24em] text-zinc-500">{siteConfig.contactPanel.kicker}</p>
@@ -12,13 +13,15 @@ const siteConfig = getSiteConfig(getLocaleFromUrl(Astro.url));
 			{siteConfig.contactPanel.heading}
 		</h2>
 		<div class="mt-8 flex flex-wrap gap-3">
-			<a
-				href={`mailto:${siteConfig.email}`}
-				class="inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-3 text-sm font-medium text-white transition hover:border-white/40 hover:bg-white/10"
-			>
-				<SocialIcon icon={siteConfig.emailIcon} label="Email" class="h-6 w-6" />
-				{siteConfig.email}
-			</a>
+			{siteConfig.email && (
+				<a
+					href={`mailto:${siteConfig.email}`}
+					class="inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-3 text-sm font-medium text-white transition hover:border-white/40 hover:bg-white/10"
+				>
+					<SocialIcon icon={siteConfig.emailIcon} label="Email" class="h-6 w-6" />
+					{siteConfig.email}
+				</a>
+			)}
 			{siteConfig.socials.map((item) => (
 				<a
 					href={item.href}
@@ -32,3 +35,4 @@ const siteConfig = getSiteConfig(getLocaleFromUrl(Astro.url));
 		</div>
 	</div>
 </section>
+)}

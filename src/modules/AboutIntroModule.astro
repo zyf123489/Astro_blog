@@ -1,5 +1,6 @@
 ---
 import SectionHeading from '../components/SectionHeading.astro';
+import { getLocaleFromUrl } from '../config/site';
 
 interface Props {
 	kicker?: string;
@@ -11,6 +12,7 @@ interface Props {
 }
 
 const { heading, intro, kicker, paragraphs, profile, profileLabel } = Astro.props;
+const locale = getLocaleFromUrl(Astro.url);
 ---
 
 <section class="mx-auto max-w-6xl px-5 py-20 md:py-28">
@@ -19,15 +21,21 @@ const { heading, intro, kicker, paragraphs, profile, profileLabel } = Astro.prop
 		title={heading}
 		description={intro}
 	/>
-	<div class="grid gap-8 md:grid-cols-[0.9fr_1.1fr]">
-		<div class="rounded-lg border border-white/10 bg-white/[0.03] p-6">
-			<p class="text-sm uppercase tracking-[0.24em] text-zinc-500">{profileLabel}</p>
-			<p class="mt-4 text-2xl font-semibold leading-snug text-white">
-				{profile}
-			</p>
+	{profile || paragraphs.length > 0 ? (
+		<div class:list={['grid gap-8', profile && paragraphs.length > 0 && 'md:grid-cols-[0.9fr_1.1fr]']}>
+			{profile && (
+				<div class="rounded-lg border border-white/10 bg-white/[0.03] p-6">
+					<p class="text-sm uppercase tracking-[0.24em] text-zinc-500">{profileLabel}</p>
+					<p class="mt-4 text-2xl font-semibold leading-snug text-white">{profile}</p>
+				</div>
+			)}
+			{paragraphs.length > 0 && (
+				<div class="space-y-5 text-base leading-8 text-zinc-400">
+					{paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+				</div>
+			)}
 		</div>
-		<div class="space-y-5 text-base leading-8 text-zinc-400">
-			{paragraphs.map((paragraph) => <p>{paragraph}</p>)}
-		</div>
-	</div>
+	) : !intro && (
+		<p class="text-zinc-400">{locale === 'zh' ? '暂未发布个人介绍。' : 'No introduction has been published yet.'}</p>
+	)}
 </section>

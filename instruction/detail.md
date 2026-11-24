@@ -51,20 +51,18 @@ src/config/site.ts
 | `name` | `string` | 站点名称，会显示在导航品牌、页面标题和头像 `alt` 中 |
 | `title` | `string` | 首页头像旁边的身份说明 |
 | `description` | `string` | 站点默认描述，用于 SEO 和页面 meta |
-| `email` | `string` | 联系邮箱 |
-| `location` | `string` | 简历页面的位置字段 |
-| `avatar` | `string` | 头像路径，默认 `/avatar.png` |
+| `email` | `string` | 联系邮箱，留空则不显示邮件链接 |
+| `avatar` | `string` | 首页头像路径，留空则不显示头像 |
 | `visitorCount` | `string` | 首页访客编号展示文本中的数字 |
 
 示例：
 
 ```ts
 name: 'Atlas',
-title: '学生 / 设计工程学习者',
-description: '一个黑色系 Astro 个人网站模板。',
-email: 'luckykevvv@gmail.com',
-location: 'Campus / Online',
-avatar: '/avatar.png',
+title: '',
+description: '个人网站',
+email: '',
+avatar: '',
 visitorCount: '0001',
 ```
 
@@ -426,11 +424,10 @@ featured: true
 
 | 文件 | 作用 |
 | --- | --- |
-| `public/avatar.png` | 首页头像 |
 | `public/favicon.svg` | 浏览器标签页图标 |
 | `public/favicon.ico` | 旧浏览器 favicon 兜底 |
 
-如果替换头像，保持路径为 `/avatar.png` 最简单；如果改文件名，需要同步修改 `siteConfig.avatar`。
+添加头像时，把图片放入 `public/`，然后在 `src/config/site.ts` 中设置 `shared.avatar`，例如 `/avatar.png`。
 
 ## 常用命令
 
